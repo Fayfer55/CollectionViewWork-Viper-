@@ -78,8 +78,7 @@
 		8501DA5725C29D70006E3F47 /* CollectionViewWork */ = {
 			isa = PBXGroup;
 			children = (
-				85F4D19525C3EB4200CA6640 /* Photos */,
-				85F4D1A825C81BC300CA6640 /* BigPhoto */,
+				85F4D1B625C836DA00CA6640 /* Scenes */,
 				85F4D1A325C45DAA00CA6640 /* Helpers */,
 				85F4D1A225C45D8C00CA6640 /* Managers */,
 				85F4D1A425C45DFD00CA6640 /* SupportFiles */,
@@ -99,6 +98,7 @@
 				8501DA7325C2A63B006E3F47 /* CollectionViewCell.swift */,
 			);
 			name = Photos;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		85F4D1A225C45D8C00CA6640 /* Managers */ = {
@@ -138,6 +138,16 @@
 				85F4D1B225C81C1A00CA6640 /* BigPhotoCoordinator.swift */,
 			);
 			name = BigPhoto;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		85F4D1B625C836DA00CA6640 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				85F4D19525C3EB4200CA6640 /* Photos */,
+				85F4D1A825C81BC300CA6640 /* BigPhoto */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

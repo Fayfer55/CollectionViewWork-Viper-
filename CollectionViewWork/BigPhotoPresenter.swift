@@ -23,8 +23,8 @@ class BigPhotoPresenter: BigPhotoViewOutputProtocol {
         self.indexPath = indexPath
     }
     
-    func getPhoto(at indexPath: IndexPath) -> PhotoModel {
-        photos[indexPath.item]
+    func getPhoto(at indexPath: IndexPath) -> String {
+        photos[indexPath.item].urls.regular
     }
     
     func scrollToItem() {
