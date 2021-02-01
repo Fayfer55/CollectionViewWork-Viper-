@@ -16,7 +16,6 @@ protocol PhotosInteractorOutputProtocol: class {
     func photosDidRecieve(_ photos: [PhotoModel])
 }
 
-
 class PhotosInteractor: PhotosInteractorInputProtocol {
     unowned let presenter: PhotosInteractorOutputProtocol
     

@@ -14,8 +14,8 @@ class CollectionViewCell: UICollectionViewCell {
         let imageView = ImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleToFill
-        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true        
         
         return imageView
     }()
@@ -34,11 +34,6 @@ class CollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    override func updateConstraints() {
-        
-        
-        super.updateConstraints()
     }
     
     func configure(with result: PhotoModel) {

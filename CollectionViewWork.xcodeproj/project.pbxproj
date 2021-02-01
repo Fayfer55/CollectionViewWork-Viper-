@@ -71,16 +71,11 @@
 			isa = PBXGroup;
 			children = (
 				85F4D19525C3EB4200CA6640 /* Photos */,
-				8501DA5825C29D70006E3F47 /* AppDelegate.swift */,
-				8501DA6125C29D76006E3F47 /* Assets.xcassets */,
+				85F4D1A325C45DAA00CA6640 /* Helpers */,
+				85F4D1A225C45D8C00CA6640 /* Managers */,
+				85F4D1A425C45DFD00CA6640 /* SupportFiles */,
 				8501DA6325C29D76006E3F47 /* LaunchScreen.storyboard */,
-				8501DA6625C29D76006E3F47 /* Info.plist */,
-				8501DA7325C2A63B006E3F47 /* CollectionViewCell.swift */,
-				8501DA7625C2A9E9006E3F47 /* ImageView.swift */,
-				8501DA7925C2A9FD006E3F47 /* ImageManager.swift */,
-				8501DA7C25C2AA39006E3F47 /* NetworkManager.swift */,
 				8501DA7F25C2AA4A006E3F47 /* PhotoModel.swift */,
-				8501DA8525C2B0A0006E3F47 /* Constants.swift */,
 			);
 			path = CollectionViewWork;
 			sourceTree = "<group>";
@@ -92,8 +87,37 @@
 				85F4D19725C3EBCF00CA6640 /* PhotosPresenter.swift */,
 				85F4D19A25C3EBF300CA6640 /* PhotosInteractor.swift */,
 				85F4D19E25C3EC0A00CA6640 /* PhotosRouter.swift */,
+				8501DA7325C2A63B006E3F47 /* CollectionViewCell.swift */,
 			);
 			name = Photos;
+			sourceTree = "<group>";
+		};
+		85F4D1A225C45D8C00CA6640 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8501DA7C25C2AA39006E3F47 /* NetworkManager.swift */,
+				8501DA7925C2A9FD006E3F47 /* ImageManager.swift */,
+				8501DA7625C2A9E9006E3F47 /* ImageView.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		85F4D1A325C45DAA00CA6640 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8501DA8525C2B0A0006E3F47 /* Constants.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		85F4D1A425C45DFD00CA6640 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				8501DA5825C29D70006E3F47 /* AppDelegate.swift */,
+				8501DA6125C29D76006E3F47 /* Assets.xcassets */,
+				8501DA6625C29D76006E3F47 /* Info.plist */,
+			);
+			name = SupportFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -18,7 +18,7 @@ protocol PhotosViewOutputProtocol: class {
     
     init(view: PhotosViewInputProtocol)
     func showPhotos(with searchText: String?)
-    func getPhotos(at indexPath: IndexPath) -> PhotoModel
+    func getPhoto(at indexPath: IndexPath) -> PhotoModel
     func showNewPagePhotos()
 }
 
@@ -29,7 +29,7 @@ class PhotosViewController: UIViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
-//    private lazy var activityView = UIActivityIndicatorView(style: .large)
+    private lazy var activityView = UIActivityIndicatorView(style: .large)
     
     private let configarator: PhotosConfiguratorProtocol = PhotosConfigurator()
     
@@ -48,12 +48,49 @@ class PhotosViewController: UIViewController {
     }
     
     override func updateViewConstraints() {
-//        activityView.center = view.center
+        activityView.center = view.center
         
         super.updateViewConstraints()
     }
+}
+
+// MARK: UICollectionViewDataSource
+extension PhotosViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        presenter.photosCount
+    }
     
-    // MARK: Setup UI
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseId, for: indexPath) as! CollectionViewCell
+        
+        cell.configure(with: presenter.getPhoto(at: indexPath))
+        
+        return cell
+    }
+}
+
+// MARK: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate
+extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: Constants.itemWidth, height: Constants.itemWidth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == presenter.photosCount - 4 {
+            presenter.showNewPagePhotos()
+        }
+    }
+}
+
+// MARK: SearchButton
+extension PhotosViewController:  UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        presenter.showPhotos(with: searchBar.text)
+    }
+}
+
+// MARK: Setup UI
+extension PhotosViewController {
     private func setupNavigationBar() {
         view.backgroundColor = .white
         
@@ -70,7 +107,6 @@ class PhotosViewController: UIViewController {
         
         navigationItem.title = "Photos"
     }
-    
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
@@ -90,7 +126,6 @@ class PhotosViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
-    
     private func setupSearchController() {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
@@ -103,61 +138,22 @@ class PhotosViewController: UIViewController {
     }
     
     private func showActivityIndicator() {
-//        view.addSubview(activityView)
-//
-//        activityView.hidesWhenStopped = true
-    }
-}
-
-
-// MARK: UICollectionViewDataSource
-extension PhotosViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter.photosCount
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseId, for: indexPath) as! CollectionViewCell
+        view.addSubview(activityView)
         
-        cell.configure(with: presenter.getPhotos(at: indexPath))
-        
-        return cell
-    }
-}
-
-
-// MARK: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate
-extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: Constants.itemWidth, height: Constants.itemWidth)
-    }
-    
-        func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if indexPath.item == presenter.photosCount - 1 {
-                presenter.showNewPagePhotos()
-            }
-        }
-}
-
-// MARK: SearchButton
-extension PhotosViewController:  UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        presenter.showPhotos(with: searchBar.text)
+        activityView.hidesWhenStopped = true
     }
 }
 
 extension PhotosViewController: PhotosViewInputProtocol {
     func reloadData() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        collectionView.reloadData()
     }
     
     func startAnimationActivityIndicator() {
-//        activityView.startAnimating()
+        activityView.startAnimating()
     }
     
     func stopAnimationActivityIndicator() {
-//        activityView.stopAnimating()
+        activityView.stopAnimating()
     }
 }

@@ -28,7 +28,6 @@ class PhotosRouter: PhotosRouterInputProtocol {
 }
 
 class PhotosConfigurator: PhotosConfiguratorProtocol {
-    
     func configure(with viewController: PhotosViewController) {
         let presenter = PhotosPresenter(view: viewController)
         let interacter = PhotosInteractor(presenter: presenter)
