@@ -20,6 +20,10 @@
 		85F4D19825C3EBCF00CA6640 /* PhotosPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D19725C3EBCF00CA6640 /* PhotosPresenter.swift */; };
 		85F4D19B25C3EBF300CA6640 /* PhotosInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D19A25C3EBF300CA6640 /* PhotosInteractor.swift */; };
 		85F4D19F25C3EC0A00CA6640 /* PhotosRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D19E25C3EC0A00CA6640 /* PhotosRouter.swift */; };
+		85F4D1AA25C81BE500CA6640 /* BigPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D1A925C81BE500CA6640 /* BigPhotoViewController.swift */; };
+		85F4D1AD25C81BF500CA6640 /* BigPhotoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D1AC25C81BF500CA6640 /* BigPhotoPresenter.swift */; };
+		85F4D1B025C81C0B00CA6640 /* BigPhotoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D1AF25C81C0B00CA6640 /* BigPhotoInteractor.swift */; };
+		85F4D1B325C81C1A00CA6640 /* BigPhotoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F4D1B225C81C1A00CA6640 /* BigPhotoCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +42,10 @@
 		85F4D19725C3EBCF00CA6640 /* PhotosPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPresenter.swift; sourceTree = "<group>"; };
 		85F4D19A25C3EBF300CA6640 /* PhotosInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosInteractor.swift; sourceTree = "<group>"; };
 		85F4D19E25C3EC0A00CA6640 /* PhotosRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosRouter.swift; sourceTree = "<group>"; };
+		85F4D1A925C81BE500CA6640 /* BigPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPhotoViewController.swift; sourceTree = "<group>"; };
+		85F4D1AC25C81BF500CA6640 /* BigPhotoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPhotoPresenter.swift; sourceTree = "<group>"; };
+		85F4D1AF25C81C0B00CA6640 /* BigPhotoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPhotoInteractor.swift; sourceTree = "<group>"; };
+		85F4D1B225C81C1A00CA6640 /* BigPhotoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigPhotoCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				85F4D19525C3EB4200CA6640 /* Photos */,
+				85F4D1A825C81BC300CA6640 /* BigPhoto */,
 				85F4D1A325C45DAA00CA6640 /* Helpers */,
 				85F4D1A225C45D8C00CA6640 /* Managers */,
 				85F4D1A425C45DFD00CA6640 /* SupportFiles */,
@@ -118,6 +127,17 @@
 				8501DA6625C29D76006E3F47 /* Info.plist */,
 			);
 			name = SupportFiles;
+			sourceTree = "<group>";
+		};
+		85F4D1A825C81BC300CA6640 /* BigPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				85F4D1A925C81BE500CA6640 /* BigPhotoViewController.swift */,
+				85F4D1AC25C81BF500CA6640 /* BigPhotoPresenter.swift */,
+				85F4D1AF25C81C0B00CA6640 /* BigPhotoInteractor.swift */,
+				85F4D1B225C81C1A00CA6640 /* BigPhotoCoordinator.swift */,
+			);
+			name = BigPhoto;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,12 +213,16 @@
 				8501DA7725C2A9E9006E3F47 /* ImageView.swift in Sources */,
 				8501DA7A25C2A9FD006E3F47 /* ImageManager.swift in Sources */,
 				8501DA5D25C29D70006E3F47 /* PhotosViewController.swift in Sources */,
+				85F4D1B025C81C0B00CA6640 /* BigPhotoInteractor.swift in Sources */,
 				8501DA8025C2AA4A006E3F47 /* PhotoModel.swift in Sources */,
 				85F4D19825C3EBCF00CA6640 /* PhotosPresenter.swift in Sources */,
+				85F4D1AA25C81BE500CA6640 /* BigPhotoViewController.swift in Sources */,
 				8501DA5925C29D70006E3F47 /* AppDelegate.swift in Sources */,
 				85F4D19F25C3EC0A00CA6640 /* PhotosRouter.swift in Sources */,
 				8501DA7425C2A63B006E3F47 /* CollectionViewCell.swift in Sources */,
 				8501DA8625C2B0A0006E3F47 /* Constants.swift in Sources */,
+				85F4D1B325C81C1A00CA6640 /* BigPhotoCoordinator.swift in Sources */,
+				85F4D1AD25C81BF500CA6640 /* BigPhotoPresenter.swift in Sources */,
 				85F4D19B25C3EBF300CA6640 /* PhotosInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,6 +20,7 @@ protocol PhotosViewOutputProtocol: class {
     func showPhotos(with searchText: String?)
     func getPhoto(at indexPath: IndexPath) -> PhotoModel
     func showNewPagePhotos()
+    func showBigPhoto(at indexPath: IndexPath)
 }
 
 
@@ -79,6 +80,10 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
         if indexPath.item == presenter.photosCount - 4 {
             presenter.showNewPagePhotos()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.showBigPhoto(at: indexPath)
     }
 }
 

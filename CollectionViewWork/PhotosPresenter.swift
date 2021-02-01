@@ -36,6 +36,10 @@ class PhotosPresenter: PhotosViewOutputProtocol {
         page += 1
         interactor.fetchPhotos(with: searchText ?? "", and: page)
     }
+    
+    func showBigPhoto(at indexPath: IndexPath) {
+        router.openBigPhotoViewController(with: photos, and: indexPath)
+    }
 }
 
 extension PhotosPresenter: PhotosInteractorOutputProtocol {

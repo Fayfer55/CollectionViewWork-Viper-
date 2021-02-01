@@ -9,7 +9,7 @@ import Foundation
 
 protocol PhotosRouterInputProtocol: class {
     init(viewController: PhotosViewController)
-    func openBigPhotoViewController()
+    func openBigPhotoViewController(with photos: [PhotoModel], and indexPath: IndexPath)
 }
 
 protocol PhotosConfiguratorProtocol: class {
@@ -23,7 +23,13 @@ class PhotosRouter: PhotosRouterInputProtocol {
         self.viewController = viewController
     }
     
-    func openBigPhotoViewController() {
+    func openBigPhotoViewController(with photos: [PhotoModel], and indexPath: IndexPath) {
+        let bigPhotoViewController = BigPhotoViewController()
+        let coordinator: BigPhotoCoordinator = BigPhotoCoordinator()
+        
+        coordinator.configure(with: bigPhotoViewController, and: photos, indexPath: indexPath)
+        
+        viewController.navigationController?.pushViewController(bigPhotoViewController, animated: true)
     }
 }
 
