@@ -78,37 +78,14 @@
 		8501DA5725C29D70006E3F47 /* CollectionViewWork */ = {
 			isa = PBXGroup;
 			children = (
-				85F4D1B625C836DA00CA6640 /* Scenes */,
+				85F4D1BA25C85CAD00CA6640 /* Scene */,
+				85F4D1BC25C85CC100CA6640 /* Managers */,
 				85F4D1A325C45DAA00CA6640 /* Helpers */,
-				85F4D1A225C45D8C00CA6640 /* Managers */,
 				85F4D1A425C45DFD00CA6640 /* SupportFiles */,
 				8501DA6325C29D76006E3F47 /* LaunchScreen.storyboard */,
 				8501DA7F25C2AA4A006E3F47 /* PhotoModel.swift */,
 			);
 			path = CollectionViewWork;
-			sourceTree = "<group>";
-		};
-		85F4D19525C3EB4200CA6640 /* Photos */ = {
-			isa = PBXGroup;
-			children = (
-				8501DA5C25C29D70006E3F47 /* PhotosViewController.swift */,
-				85F4D19725C3EBCF00CA6640 /* PhotosPresenter.swift */,
-				85F4D19A25C3EBF300CA6640 /* PhotosInteractor.swift */,
-				85F4D19E25C3EC0A00CA6640 /* PhotosRouter.swift */,
-				8501DA7325C2A63B006E3F47 /* CollectionViewCell.swift */,
-			);
-			name = Photos;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		85F4D1A225C45D8C00CA6640 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				8501DA7C25C2AA39006E3F47 /* NetworkManager.swift */,
-				8501DA7925C2A9FD006E3F47 /* ImageManager.swift */,
-				8501DA7625C2A9E9006E3F47 /* ImageView.swift */,
-			);
-			name = Managers;
 			sourceTree = "<group>";
 		};
 		85F4D1A325C45DAA00CA6640 /* Helpers */ = {
@@ -129,7 +106,7 @@
 			name = SupportFiles;
 			sourceTree = "<group>";
 		};
-		85F4D1A825C81BC300CA6640 /* BigPhoto */ = {
+		85F4D1B825C85C8700CA6640 /* BigPhoto */ = {
 			isa = PBXGroup;
 			children = (
 				85F4D1A925C81BE500CA6640 /* BigPhotoViewController.swift */,
@@ -137,17 +114,38 @@
 				85F4D1AF25C81C0B00CA6640 /* BigPhotoInteractor.swift */,
 				85F4D1B225C81C1A00CA6640 /* BigPhotoCoordinator.swift */,
 			);
-			name = BigPhoto;
-			path = ..;
+			path = BigPhoto;
 			sourceTree = "<group>";
 		};
-		85F4D1B625C836DA00CA6640 /* Scenes */ = {
+		85F4D1B925C85C9A00CA6640 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
-				85F4D19525C3EB4200CA6640 /* Photos */,
-				85F4D1A825C81BC300CA6640 /* BigPhoto */,
+				8501DA5C25C29D70006E3F47 /* PhotosViewController.swift */,
+				85F4D19725C3EBCF00CA6640 /* PhotosPresenter.swift */,
+				85F4D19A25C3EBF300CA6640 /* PhotosInteractor.swift */,
+				85F4D19E25C3EC0A00CA6640 /* PhotosRouter.swift */,
+				8501DA7325C2A63B006E3F47 /* CollectionViewCell.swift */,
 			);
-			path = Scenes;
+			path = Photos;
+			sourceTree = "<group>";
+		};
+		85F4D1BA25C85CAD00CA6640 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				85F4D1B825C85C8700CA6640 /* BigPhoto */,
+				85F4D1B925C85C9A00CA6640 /* Photos */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		85F4D1BC25C85CC100CA6640 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				8501DA7C25C2AA39006E3F47 /* NetworkManager.swift */,
+				8501DA7925C2A9FD006E3F47 /* ImageManager.swift */,
+				8501DA7625C2A9E9006E3F47 /* ImageView.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
