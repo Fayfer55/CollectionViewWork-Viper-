@@ -36,8 +36,8 @@ class CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with result: PhotoModel) {
-        mainImage.fetchImage(from: result.urls.small)
+    func configure(with urlResult: String) {
+        mainImage.fetchImage(from: urlResult)
     }
 }
 

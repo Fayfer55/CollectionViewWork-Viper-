@@ -22,8 +22,8 @@ class PhotosPresenter: PhotosViewOutputProtocol {
         self.view = view
     }
     
-    func getPhoto(at indexPath: IndexPath) -> PhotoModel {
-        photos[indexPath.item]
+    func getPhoto(at indexPath: IndexPath) -> String {
+        photos[indexPath.item].urls.small
     }
     
     func showPhotos(with searchText: String?) {
@@ -35,6 +35,10 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     func showNewPagePhotos() {
         page += 1
         interactor.fetchPhotos(with: searchText ?? "", and: page)
+    }
+    
+    func showBigPhoto(at indexPath: IndexPath) {
+        router.openBigPhotoViewController(with: photos, and: indexPath)
     }
 }
 

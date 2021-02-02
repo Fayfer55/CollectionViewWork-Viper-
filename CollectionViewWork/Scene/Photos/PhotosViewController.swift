@@ -18,12 +18,14 @@ protocol PhotosViewOutputProtocol: class {
     
     init(view: PhotosViewInputProtocol)
     func showPhotos(with searchText: String?)
-    func getPhoto(at indexPath: IndexPath) -> PhotoModel
+    func getPhoto(at indexPath: IndexPath) -> String
     func showNewPagePhotos()
+    func showBigPhoto(at indexPath: IndexPath)
 }
 
 
 class PhotosViewController: UIViewController {
+    var presenter: PhotosViewOutputProtocol!
     // MARK: Private properties
     private var collectionView: UICollectionView!
     
@@ -32,8 +34,6 @@ class PhotosViewController: UIViewController {
     private lazy var activityView = UIActivityIndicatorView(style: .large)
     
     private let configarator: PhotosConfiguratorProtocol = PhotosConfigurator()
-    
-    var presenter: PhotosViewOutputProtocol!
     
     // MARK: Life cicle
     override func viewDidLoad() {
@@ -79,6 +79,10 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
         if indexPath.item == presenter.photosCount - 4 {
             presenter.showNewPagePhotos()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.showBigPhoto(at: indexPath)
     }
 }
 

@@ -9,6 +9,7 @@ import UIKit
 
 struct Constants {
     static let minimumLineSpacing: CGFloat = 2
+    static let minimumLineSpacingHorizontal: CGFloat = 5
     static let minimumItemSpacing: CGFloat = 2
     static let leftDistanceToView: CGFloat = 2
     static let rightDistanceToView: CGFloat = 2

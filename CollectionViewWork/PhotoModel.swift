@@ -13,4 +13,5 @@ struct PhotoModel: Decodable {
 
 struct Urls: Decodable {
     let small: String
+    let regular: String
 }
