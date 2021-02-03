@@ -10,12 +10,18 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     static let reuseId = "CollectionViewCell"
     
+    var isClicked = false
+    
     private lazy var mainImage: ImageView = {
         let imageView = ImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true        
+        imageView.clipsToBounds = true
+        
+        let checkmark = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
+        checkmark.isHidden = !isClicked
+        imageView.addSubview(checkmark)
         
         return imageView
     }()

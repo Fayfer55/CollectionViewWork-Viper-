@@ -16,6 +16,7 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     }
     private var page = 1
     private var photos = [PhotoModel]()
+    private var selectedPhotos = [String]()
     private var searchText: String?
     
     required init(view: PhotosViewInputProtocol) {
@@ -39,6 +40,18 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     
     func showBigPhoto(at indexPath: IndexPath) {
         router.openBigPhotoViewController(with: photos, and: indexPath)
+    }
+    
+    func collectionItemPressed(at indexPath: IndexPath) {
+        let photo = photos[indexPath.item].urls.regular
+        
+        if !selectedPhotos.contains(photo) {
+            selectedPhotos.append(photo)
+            view.itemPressed(at: indexPath, and: 0.7)
+        } else {
+            selectedPhotos.remove(at: selectedPhotos.firstIndex(of: photo) ?? 0)
+            view.itemPressed(at: indexPath, and: 0.0)
+        }
     }
 }
 

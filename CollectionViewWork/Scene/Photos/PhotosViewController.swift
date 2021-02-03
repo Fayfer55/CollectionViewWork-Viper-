@@ -11,6 +11,7 @@ protocol PhotosViewInputProtocol: class {
     func reloadData()
     func startAnimationActivityIndicator()
     func stopAnimationActivityIndicator()
+    func itemPressed(at indexPath: IndexPath, and alpha: CGFloat)
 }
 
 protocol PhotosViewOutputProtocol: class {
@@ -21,6 +22,7 @@ protocol PhotosViewOutputProtocol: class {
     func getPhoto(at indexPath: IndexPath) -> String
     func showNewPagePhotos()
     func showBigPhoto(at indexPath: IndexPath)
+    func collectionItemPressed(at indexPath: IndexPath)
 }
 
 
@@ -82,7 +84,11 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.showBigPhoto(at: indexPath)
+        if isEditing {
+            presenter.collectionItemPressed(at: indexPath)
+        } else {
+            presenter.showBigPhoto(at: indexPath)
+        }
     }
 }
 
@@ -110,6 +116,7 @@ extension PhotosViewController {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
         navigationItem.title = "Photos"
+        navigationItem.leftBarButtonItem = editButtonItem
     }
     
     private func setupCollectionView() {
@@ -159,5 +166,13 @@ extension PhotosViewController: PhotosViewInputProtocol {
     
     func stopAnimationActivityIndicator() {
         activityView.stopAnimating()
+    }
+    
+    func itemPressed(at indexPath: IndexPath, and alpha: CGFloat) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
+        
+        cell.layer.borderWidth = 200.0
+        cell.layer.borderColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: alpha).cgColor
+        cell.isClicked.toggle()
     }
 }
