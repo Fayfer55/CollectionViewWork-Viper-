@@ -10,6 +10,7 @@ import Foundation
 protocol PhotosInteractorInputProtocol: class {
     init(presenter: PhotosInteractorOutputProtocol )
     func fetchPhotos(with query: String, and page: Int)
+    func savePhotos(photos: [String])
 }
 
 protocol PhotosInteractorOutputProtocol: class {
@@ -28,5 +29,9 @@ class PhotosInteractor: PhotosInteractorInputProtocol {
         NetworkManager.shared.network(url: url, page: page) { [weak self] (photos) in
             self?.presenter.photosDidRecieve(photos)
         }
+    }
+    
+    func savePhotos(photos: [String]) {
+        StorageManager.shared.save(value: photos)
     }
 }

@@ -11,7 +11,9 @@ protocol PhotosViewInputProtocol: class {
     func reloadData()
     func startAnimationActivityIndicator()
     func stopAnimationActivityIndicator()
-    func itemPressed(at indexPath: IndexPath, and alpha: CGFloat)
+    func itemPressed(at indexPath: IndexPath)
+    func selectionAllowed()
+    func selectionBanned()
 }
 
 protocol PhotosViewOutputProtocol: class {
@@ -23,6 +25,10 @@ protocol PhotosViewOutputProtocol: class {
     func showNewPagePhotos()
     func showBigPhoto(at indexPath: IndexPath)
     func collectionItemPressed(at indexPath: IndexPath)
+    func selectionAllowed()
+    func selectionBanned()
+    func showSavedPhotos()
+    func savePhotos()
 }
 
 
@@ -31,17 +37,57 @@ class PhotosViewController: UIViewController {
     // MARK: Private properties
     private var collectionView: UICollectionView!
     
-    private let searchController = UISearchController(searchResultsController: nil)
+    private lazy var searchController = UISearchController(searchResultsController: nil)
     
     private lazy var activityView = UIActivityIndicatorView(style: .large)
     
-    private let configarator: PhotosConfiguratorProtocol = PhotosConfigurator()
+    private let configurator: PhotosConfiguratorProtocol = PhotosConfigurator()
+    
+    private lazy var selectBarButtonItem: UIBarButtonItem = {
+        let selectBarButtonItem = UIBarButtonItem(
+            title: "Select",
+            style: .plain,
+            target: self,
+            action: #selector(selectButtonPressed)
+        )
+        return selectBarButtonItem
+    }()
+        
+    private lazy var saveBarButtonItem: UIBarButtonItem = {
+        let saveBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .save,
+            target: self,
+            action: #selector(saveButtonPressed)
+        )
+        return saveBarButtonItem
+    }()
+    
+    private lazy var collectionBarButtonItem: UIBarButtonItem = {
+        let collectionBarButton = UIBarButtonItem(
+            image: UIImage(systemName: "photo.fill.on.rectangle.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(collectionButtonPressed)
+        )
+        return collectionBarButton
+    }()
+    
+    private var isSelected = false {
+        didSet {
+            switch isSelected {
+            case false:
+                presenter.selectionBanned()
+            case true:
+                presenter.selectionAllowed()
+            }
+        }
+    }
     
     // MARK: Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configarator.configure(with: self)
+        configurator.configure(with: self)
         
         setupNavigationBar()
         setupCollectionView()
@@ -84,7 +130,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isEditing {
+        if isSelected {
             presenter.collectionItemPressed(at: indexPath)
         } else {
             presenter.showBigPhoto(at: indexPath)
@@ -116,7 +162,8 @@ extension PhotosViewController {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
         navigationItem.title = "Photos"
-        navigationItem.leftBarButtonItem = editButtonItem
+        navigationItem.rightBarButtonItem = selectBarButtonItem
+        navigationItem.leftBarButtonItem = collectionBarButtonItem
     }
     
     private func setupCollectionView() {
@@ -168,11 +215,36 @@ extension PhotosViewController: PhotosViewInputProtocol {
         activityView.stopAnimating()
     }
     
-    func itemPressed(at indexPath: IndexPath, and alpha: CGFloat) {
+    func itemPressed(at indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
         
-        cell.layer.borderWidth = 200.0
-        cell.layer.borderColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: alpha).cgColor
-        cell.isClicked.toggle()
+        cell.isClicked = true
+    }
+    
+    func selectionAllowed() {
+        selectBarButtonItem.title = "Done"
+        navigationItem.leftBarButtonItem = saveBarButtonItem
+        collectionView.allowsMultipleSelection = true
+    }
+    
+    func selectionBanned() {
+        selectBarButtonItem.title = "Select"
+        navigationItem.leftBarButtonItem = collectionBarButtonItem
+        collectionView.allowsMultipleSelection = false
+    }
+}
+
+// MARK: OBJC Methods
+extension PhotosViewController {
+    @objc private func selectButtonPressed() {
+        isSelected = isSelected == false ? true : false
+    }
+    
+    @objc private func saveButtonPressed() {
+        presenter.savePhotos()
+    }
+    
+    @objc private func collectionButtonPressed() {
+        presenter.showSavedPhotos()
     }
 }

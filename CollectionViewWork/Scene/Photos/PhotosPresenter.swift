@@ -42,16 +42,31 @@ class PhotosPresenter: PhotosViewOutputProtocol {
         router.openBigPhotoViewController(with: photos, and: indexPath)
     }
     
+    func showSavedPhotos() {
+        router.openSaveViewController()
+    }
+    
     func collectionItemPressed(at indexPath: IndexPath) {
         let photo = photos[indexPath.item].urls.regular
+        view.itemPressed(at: indexPath)
         
         if !selectedPhotos.contains(photo) {
             selectedPhotos.append(photo)
-            view.itemPressed(at: indexPath, and: 0.7)
         } else {
             selectedPhotos.remove(at: selectedPhotos.firstIndex(of: photo) ?? 0)
-            view.itemPressed(at: indexPath, and: 0.0)
         }
+    }
+    
+    func selectionAllowed() {
+        view.selectionAllowed()
+    }
+    
+    func selectionBanned() {
+        view.selectionBanned()
+    }
+    
+    func savePhotos() {
+        interactor.savePhotos(photos: selectedPhotos)
     }
 }
 
