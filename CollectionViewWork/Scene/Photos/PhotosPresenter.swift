@@ -67,6 +67,11 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     
     func savePhotos() {
         interactor.savePhotos(photos: selectedPhotos)
+        AlertManager.shared.showsimpleAlert(
+            title: "Your photos where saved",
+            message: "You can find them in gallery in up left corner") { [weak self] (alert) in
+            self?.view.showAlert(with: alert)
+        }
     }
 }
 

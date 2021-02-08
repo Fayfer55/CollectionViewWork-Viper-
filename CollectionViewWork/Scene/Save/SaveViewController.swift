@@ -10,6 +10,9 @@ import UIKit
 protocol SaveViewInputProtocol: class {
     func selectionBanned()
     func selectionAllowed()
+    func showAlert(with alert: UIAlertController)
+    func deleteItem(at indeces: [IndexPath])
+    func reloadData()
 }
 
 protocol SaveViewOutputProtocol: class {
@@ -20,6 +23,8 @@ protocol SaveViewOutputProtocol: class {
     func fetchPhotos()
     func selectionBanned()
     func selectionAllowed()
+    func selectElements(at indexPath: IndexPath)
+    func deleteElements()
 }
 
 class SaveViewController: UIViewController {
@@ -41,7 +46,7 @@ class SaveViewController: UIViewController {
         let selectBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .trash,
             target: self,
-            action: nil
+            action: #selector(deleteButtonPressed)
         )
         return selectBarButtonItem
     }()
@@ -107,6 +112,12 @@ extension SaveViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseId, for: indexPath) as! CollectionViewCell
         cell.configure(with: presenter.getPhoto(at: indexPath))
         
+//        if isSelected {
+//            cell.isClicked = true
+//        } else {
+//            cell.isClicked = false
+//        }
+        
         return cell
     }
 }
@@ -115,6 +126,10 @@ extension SaveViewController: UICollectionViewDataSource {
 extension SaveViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: Constants.itemWidth, height: Constants.itemWidth)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.selectElements(at: indexPath)
     }
 }
 
@@ -130,10 +145,26 @@ extension SaveViewController: SaveViewInputProtocol {
         navigationItem.leftBarButtonItem = nil
         collectionView.allowsMultipleSelection = false
     }
+    
+    func showAlert(with alert: UIAlertController) {
+        present(alert, animated: true)
+    }
+    
+    func deleteItem(at indeces: [IndexPath]) {
+        collectionView.deleteItems(at: indeces)
+    }
+    
+    func reloadData() {
+        collectionView.reloadData()
+    }
 }
 
 extension SaveViewController {
     @objc private func selectButtonPressed() {
         isSelected = isSelected == false ? true : false
+    }
+    
+    @objc private func deleteButtonPressed() {
+        presenter.deleteElements()
     }
 }

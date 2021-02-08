@@ -28,8 +28,11 @@ class StorageManager {
         userDefaults.set(photos, forKey: photosKey)
     }
     
-//    func delete() {
-//        var photos = load()
-//
-//    }
+    func delete(value: Int) {
+        var photos = load()
+
+        photos.remove(at: value)
+        
+        userDefaults.set(photos, forKey: photosKey)
+    }
 }

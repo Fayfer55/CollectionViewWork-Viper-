@@ -11,6 +11,7 @@ protocol SaveInteractorInputProtocol: class {
     init(presenter: SaveInteractorOutputProtocol)
     
     func fetchPhotos()
+    func deletePhotos(at indexPaths: [IndexPath])
 }
 
 protocol  SaveInteractorOutputProtocol: class {
@@ -28,5 +29,13 @@ class SaveInteractor: SaveInteractorInputProtocol {
         let photos = StorageManager.shared.load()
         
         presenter.photosDidRecieve(photos)
+    }
+    
+    func deletePhotos(at indexPaths: [IndexPath]) {
+        let values = indexPaths
+        
+        for index in values {
+            StorageManager.shared.delete(value: index.item)
+        }
     }
 }

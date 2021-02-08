@@ -14,6 +14,7 @@ protocol PhotosViewInputProtocol: class {
     func itemPressed(at indexPath: IndexPath)
     func selectionAllowed()
     func selectionBanned()
+    func showAlert(with alert: UIAlertController)
 }
 
 protocol PhotosViewOutputProtocol: class {
@@ -231,6 +232,10 @@ extension PhotosViewController: PhotosViewInputProtocol {
         selectBarButtonItem.title = "Select"
         navigationItem.leftBarButtonItem = collectionBarButtonItem
         collectionView.allowsMultipleSelection = false
+    }
+    
+    func showAlert(with alert: UIAlertController) {
+        present(alert, animated: true)
     }
 }
 
