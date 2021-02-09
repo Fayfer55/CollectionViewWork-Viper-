@@ -9,7 +9,8 @@ import Foundation
 
 class SavePresenter: SaveViewOutputProtocol {
     var savedPhotos = [String]()
-    var deleteIndeces = [IndexPath]()
+    var deleteIndeces = [IndexPath: Bool]()
+    var deleteNeed = [IndexPath]()
     var photosCount: Int {
         savedPhotos.count
     }
@@ -34,26 +35,32 @@ class SavePresenter: SaveViewOutputProtocol {
     }
     
     func selectionBanned() {
-        view.selectionBanned()
+        view.selectionBanned(with: deleteIndeces)
     }
     
     func selectElements(at indexPath: IndexPath) {
-        if !deleteIndeces.contains(indexPath) {
-            deleteIndeces.append(indexPath)
-        } else {
-            deleteIndeces.remove(at: indexPath.item)
+        deleteIndeces[indexPath] = true
         }
+
+    func deselectItems(at indexPath: IndexPath) {
+        deleteIndeces[indexPath] = false
     }
     
     func deleteElements() {
         AlertManager.shared.showActionAlert(
             title: "Are you sure?",
             message: "You can't recover photos") { [weak self] in
-            for index in self!.deleteIndeces {
+            for (key,value) in self!.deleteIndeces {
+                if value == true {
+                    self?.deleteNeed.append(key)
+                }
+            }
+            for index in self!.deleteNeed.sorted(by: { $0.item > $1.item }) {
                 self?.savedPhotos.remove(at: index.item)
             }
-            self?.view.deleteItem(at: self?.deleteIndeces ?? [IndexPath()])
-            self?.interactor.deletePhotos(at: self?.deleteIndeces ?? [IndexPath()])
+            self?.view.deleteItem(at: self?.deleteNeed ?? [])
+            self?.interactor.deletePhotos(at: self?.deleteNeed ?? [])
+            self?.deleteNeed.removeAll()
         } complitionForPresenting: { [weak self] (alert) in
             self?.view.showAlert(with: alert)
         }

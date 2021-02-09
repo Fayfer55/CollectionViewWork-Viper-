@@ -8,11 +8,10 @@
 import UIKit
 
 protocol SaveViewInputProtocol: class {
-    func selectionBanned()
+    func selectionBanned(with dictionaryIndeces: [IndexPath:Bool])
     func selectionAllowed()
     func showAlert(with alert: UIAlertController)
     func deleteItem(at indeces: [IndexPath])
-    func reloadData()
 }
 
 protocol SaveViewOutputProtocol: class {
@@ -24,6 +23,7 @@ protocol SaveViewOutputProtocol: class {
     func selectionBanned()
     func selectionAllowed()
     func selectElements(at indexPath: IndexPath)
+    func deselectItems(at indexPath: IndexPath)
     func deleteElements()
 }
 
@@ -51,12 +51,12 @@ class SaveViewController: UIViewController {
         return selectBarButtonItem
     }()
     
-    private var isSelected = false {
+    private var mode: Mode = .view {
         didSet {
-            switch isSelected {
-            case false:
+            switch mode {
+            case .view:
                 presenter.selectionBanned()
-            case true:
+            case .select:
                 presenter.selectionAllowed()
             }
         }
@@ -112,12 +112,6 @@ extension SaveViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseId, for: indexPath) as! CollectionViewCell
         cell.configure(with: presenter.getPhoto(at: indexPath))
         
-//        if isSelected {
-//            cell.isClicked = true
-//        } else {
-//            cell.isClicked = false
-//        }
-        
         return cell
     }
 }
@@ -129,7 +123,19 @@ extension SaveViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.selectElements(at: indexPath)
+        switch mode {
+        case .select:
+            presenter.selectElements(at: indexPath)
+        case .view:
+            collectionView.deselectItem(at: indexPath, animated: true)
+            break
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if mode == .select {
+            presenter.deselectItems(at: indexPath)
+        }
     }
 }
 
@@ -140,7 +146,12 @@ extension SaveViewController: SaveViewInputProtocol {
         collectionView.allowsMultipleSelection = true
     }
     
-    func selectionBanned() {
+    func selectionBanned(with dictionaryIndeces: [IndexPath:Bool]) {
+        for (key,value) in dictionaryIndeces {
+            if value {
+                collectionView.deselectItem(at: key, animated: true)
+            }
+        }
         selectBarButtonItem.title = "Select"
         navigationItem.leftBarButtonItem = nil
         collectionView.allowsMultipleSelection = false
@@ -153,15 +164,11 @@ extension SaveViewController: SaveViewInputProtocol {
     func deleteItem(at indeces: [IndexPath]) {
         collectionView.deleteItems(at: indeces)
     }
-    
-    func reloadData() {
-        collectionView.reloadData()
-    }
 }
 
 extension SaveViewController {
     @objc private func selectButtonPressed() {
-        isSelected = isSelected == false ? true : false
+        mode = mode == .view ? .select : .view
     }
     
     @objc private func deleteButtonPressed() {

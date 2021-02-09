@@ -12,17 +12,24 @@ class CollectionViewCell: UICollectionViewCell {
     
     private let checkmark = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
     
-    var isClicked = false {
-        didSet {
-            isSelected = true
-        }
-    }
+//    private lazy var view: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .white
+//        layer.opacity = 0.5
+//        return view
+//    }()
+    
+//    override var isHighlighted: Bool {
+//        didSet {
+//            view.isHidden = !isHighlighted
+//        }
+//    }
     
     override var isSelected: Bool {
         didSet {
-            if isClicked {
-                checkmark.isHidden = !isSelected
-            }
+//            view.isHidden = !isSelected
+            checkmark.isHidden = !isSelected
+
         }
     }
     
@@ -33,10 +40,8 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
-//        highLightIndicator.isHidden = true
         checkmark.isHidden = true
         
-//        imageView.addSubview(highLightIndicator)
         imageView.addSubview(checkmark)
         
         return imageView

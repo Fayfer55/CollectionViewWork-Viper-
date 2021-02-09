@@ -11,9 +11,8 @@ protocol PhotosViewInputProtocol: class {
     func reloadData()
     func startAnimationActivityIndicator()
     func stopAnimationActivityIndicator()
-    func itemPressed(at indexPath: IndexPath)
     func selectionAllowed()
-    func selectionBanned()
+    func selectionBanned(with dictionaryIndeces: [IndexPath:Bool])
     func showAlert(with alert: UIAlertController)
 }
 
@@ -25,13 +24,13 @@ protocol PhotosViewOutputProtocol: class {
     func getPhoto(at indexPath: IndexPath) -> String
     func showNewPagePhotos()
     func showBigPhoto(at indexPath: IndexPath)
-    func collectionItemPressed(at indexPath: IndexPath)
+    func selectItem(at indexPath: IndexPath)
+    func deselectItem(at indexPath: IndexPath)
     func selectionAllowed()
     func selectionBanned()
     func showSavedPhotos()
     func savePhotos()
 }
-
 
 class PhotosViewController: UIViewController {
     var presenter: PhotosViewOutputProtocol!
@@ -43,6 +42,17 @@ class PhotosViewController: UIViewController {
     private lazy var activityView = UIActivityIndicatorView(style: .large)
     
     private let configurator: PhotosConfiguratorProtocol = PhotosConfigurator()
+    
+    private var mode: Mode = .view {
+        didSet {
+            switch mode {
+            case .view:
+                presenter.selectionBanned()
+            case .select:
+                presenter.selectionAllowed()
+            }
+        }
+    }
     
     private lazy var selectBarButtonItem: UIBarButtonItem = {
         let selectBarButtonItem = UIBarButtonItem(
@@ -73,17 +83,6 @@ class PhotosViewController: UIViewController {
         return collectionBarButton
     }()
     
-    private var isSelected = false {
-        didSet {
-            switch isSelected {
-            case false:
-                presenter.selectionBanned()
-            case true:
-                presenter.selectionAllowed()
-            }
-        }
-    }
-    
     // MARK: Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +110,6 @@ extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.reuseId, for: indexPath) as! CollectionViewCell
-        
         cell.configure(with: presenter.getPhoto(at: indexPath))
         
         return cell
@@ -131,10 +129,19 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isSelected {
-            presenter.collectionItemPressed(at: indexPath)
-        } else {
+        switch mode {
+        case .select:
+            presenter.selectItem(at: indexPath)
+        case .view:            
+            collectionView.deselectItem(at: indexPath, animated: true)
             presenter.showBigPhoto(at: indexPath)
+            break
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if mode == .select {
+            presenter.deselectItem(at: indexPath)
         }
     }
 }
@@ -216,19 +223,18 @@ extension PhotosViewController: PhotosViewInputProtocol {
         activityView.stopAnimating()
     }
     
-    func itemPressed(at indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! CollectionViewCell
-        
-        cell.isClicked = true
-    }
-    
     func selectionAllowed() {
         selectBarButtonItem.title = "Done"
         navigationItem.leftBarButtonItem = saveBarButtonItem
         collectionView.allowsMultipleSelection = true
     }
     
-    func selectionBanned() {
+    func selectionBanned(with dictionaryIndeces: [IndexPath:Bool]) {
+        for (key,value) in dictionaryIndeces {
+            if value {
+                collectionView.deselectItem(at: key, animated: true)
+            }
+        }
         selectBarButtonItem.title = "Select"
         navigationItem.leftBarButtonItem = collectionBarButtonItem
         collectionView.allowsMultipleSelection = false
@@ -242,7 +248,7 @@ extension PhotosViewController: PhotosViewInputProtocol {
 // MARK: OBJC Methods
 extension PhotosViewController {
     @objc private func selectButtonPressed() {
-        isSelected = isSelected == false ? true : false
+        mode = mode == .view ? .select : .view
     }
     
     @objc private func saveButtonPressed() {

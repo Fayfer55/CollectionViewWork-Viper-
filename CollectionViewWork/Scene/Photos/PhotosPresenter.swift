@@ -17,6 +17,8 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     private var page = 1
     private var photos = [PhotoModel]()
     private var selectedPhotos = [String]()
+    private var dictionaryIndeces = [IndexPath:Bool]()
+    private var selectedIndeces = [IndexPath]()
     private var searchText: String?
     
     required init(view: PhotosViewInputProtocol) {
@@ -46,15 +48,12 @@ class PhotosPresenter: PhotosViewOutputProtocol {
         router.openSaveViewController()
     }
     
-    func collectionItemPressed(at indexPath: IndexPath) {
-        let photo = photos[indexPath.item].urls.regular
-        view.itemPressed(at: indexPath)
-        
-        if !selectedPhotos.contains(photo) {
-            selectedPhotos.append(photo)
-        } else {
-            selectedPhotos.remove(at: selectedPhotos.firstIndex(of: photo) ?? 0)
-        }
+    func selectItem(at indexPath: IndexPath) {
+        dictionaryIndeces[indexPath] = true
+    }
+    
+    func deselectItem(at indexPath: IndexPath) {
+        dictionaryIndeces[indexPath] = false
     }
     
     func selectionAllowed() {
@@ -62,11 +61,22 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     }
     
     func selectionBanned() {
-        view.selectionBanned()
+        view.selectionBanned(with: dictionaryIndeces)
+        selectedIndeces.removeAll()
     }
     
     func savePhotos() {
+        for (key,value) in dictionaryIndeces {
+            if value == true {
+                selectedIndeces.append(key)
+            }
+        }
+        for index in selectedIndeces.sorted(by: { $0.item > $1.item }) {
+            let photo = photos[index.item].urls.small
+            selectedPhotos.append(photo)
+        }
         interactor.savePhotos(photos: selectedPhotos)
+        selectedIndeces.removeAll()
         AlertManager.shared.showsimpleAlert(
             title: "Your photos where saved",
             message: "You can find them in gallery in up left corner") { [weak self] (alert) in
