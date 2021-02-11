@@ -8,7 +8,7 @@
 import Foundation
 
 protocol BigPhotoInteractorInputProtocol: class {
-    init(presenter: BigPhotoInteractorOutputProtocol )
+    init(presenter: BigPhotoInteractorOutputProtocol)
 }
 
 protocol BigPhotoInteractorOutputProtocol: class {

@@ -17,3 +17,9 @@ struct Constants {
     
     static let urlWithKey = "https://api.unsplash.com/photos?client_id=vhZZrxA-4NM8JDe9SItm7jxwpJFSqwSb-nbZ0--75Ck&per_page=32&query="
 }
+
+enum Mode {
+    case select
+    case view
+}
+

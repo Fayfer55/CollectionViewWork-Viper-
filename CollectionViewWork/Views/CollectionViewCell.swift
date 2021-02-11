@@ -10,12 +10,39 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     static let reuseId = "CollectionViewCell"
     
+    private let checkmark = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
+    
+//    private lazy var view: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .white
+//        layer.opacity = 0.5
+//        return view
+//    }()
+    
+//    override var isHighlighted: Bool {
+//        didSet {
+//            view.isHidden = !isHighlighted
+//        }
+//    }
+    
+    override var isSelected: Bool {
+        didSet {
+//            view.isHidden = !isSelected
+            checkmark.isHidden = !isSelected
+
+        }
+    }
+    
     private lazy var mainImage: ImageView = {
         let imageView = ImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true        
+        imageView.clipsToBounds = true
+        
+        checkmark.isHidden = true
+        
+        imageView.addSubview(checkmark)
         
         return imageView
     }()
