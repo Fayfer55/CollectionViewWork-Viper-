@@ -55,12 +55,14 @@ class SavePresenter: SaveViewOutputProtocol {
                     self?.deleteNeed.append(key)
                 }
             }
-            for index in self!.deleteNeed.sorted(by: { $0.item > $1.item }) {
+            self?.deleteNeed = self?.deleteNeed.sorted(by: { $0.item > $1.item }) ?? []
+            for index in self!.deleteNeed {
                 self?.savedPhotos.remove(at: index.item)
             }
             self?.view.deleteItem(at: self?.deleteNeed ?? [])
             self?.interactor.deletePhotos(at: self?.deleteNeed ?? [])
             self?.deleteNeed.removeAll()
+            self?.deleteIndeces.removeAll()
         } complitionForPresenting: { [weak self] (alert) in
             self?.view.showAlert(with: alert)
         }

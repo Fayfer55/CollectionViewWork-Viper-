@@ -74,9 +74,12 @@ class PhotosPresenter: PhotosViewOutputProtocol {
         for index in selectedIndeces.sorted(by: { $0.item > $1.item }) {
             let photo = photos[index.item].urls.small
             selectedPhotos.append(photo)
+            view.deselectItem(at: index)
         }
         interactor.savePhotos(photos: selectedPhotos)
         selectedIndeces.removeAll()
+        selectedPhotos.removeAll()
+        dictionaryIndeces.removeAll()
         AlertManager.shared.showsimpleAlert(
             title: "Your photos where saved",
             message: "You can find them in gallery in up left corner") { [weak self] (alert) in

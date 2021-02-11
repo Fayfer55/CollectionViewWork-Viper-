@@ -14,6 +14,7 @@ protocol PhotosViewInputProtocol: class {
     func selectionAllowed()
     func selectionBanned(with dictionaryIndeces: [IndexPath:Bool])
     func showAlert(with alert: UIAlertController)
+    func deselectItem(at indexPath: IndexPath)
 }
 
 protocol PhotosViewOutputProtocol: class {
@@ -242,6 +243,10 @@ extension PhotosViewController: PhotosViewInputProtocol {
     
     func showAlert(with alert: UIAlertController) {
         present(alert, animated: true)
+    }
+    
+    func deselectItem(at indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
