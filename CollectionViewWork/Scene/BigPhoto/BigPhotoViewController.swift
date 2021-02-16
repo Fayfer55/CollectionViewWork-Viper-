@@ -17,6 +17,7 @@ protocol BigPhotoViewOutputProtocol: class {
     
     func getPhoto(at indexPath: IndexPath) -> String
     func scrollToItem()
+//    func deleteButtonPressed()
 }
 
 class BigPhotoViewController: UIViewController {
@@ -24,18 +25,36 @@ class BigPhotoViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     
+//    private lazy var deleteButton: UIButton = {
+//        let deleteButton = UIButton(type: .system)
+//        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+//        deleteButton.setImage(UIImage(systemName: "trash"), for: .normal)
+//        deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .allEvents)
+//        return deleteButton
+//    }()
+    
     // MARK: Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCollectionView()
         presenter.scrollToItem()
+//        view.addSubview(deleteButton)
     }
+    
+//    override func updateViewConstraints() {
+//        deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
+//            .isActive = true
+//        deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+//            .isActive = true
+//
+//        super.updateViewConstraints()
+//    }
     
     // MARK: Private methods
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 2.5, bottom: 10, right: 2.5)
+        layout.sectionInset = UIEdgeInsets(top: -10, left: 2.5, bottom: 30, right: 2.5)
         layout.minimumLineSpacing = Constants.minimumLineSpacingHorizontal
         layout.scrollDirection = .horizontal
         
@@ -64,6 +83,10 @@ extension BigPhotoViewController: UICollectionViewDataSource, UICollectionViewDe
             cell.configure(with: presenter.getPhoto(at: indexPath))
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
 }
 
 // Mark: UICollectionViewDelegateFlowLayout
@@ -78,3 +101,9 @@ extension BigPhotoViewController: BigPhotoViewInputProtocol {
         collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
     }
 }
+
+//extension BigPhotoViewController {
+//    @objc private func deleteButtonPressed() {
+//
+//    }
+//}

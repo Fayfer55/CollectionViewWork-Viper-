@@ -15,8 +15,10 @@ class SaveConfigurator: SaveConfiguratorInputProtocol {
     func configure(with viewController: SaveViewController) {
         let presenter = SavePresenter(view: viewController)
         let interacter = SaveInteractor(presenter: presenter)
+        let router = SaveRouter(viewController: viewController)
         
         viewController.presenter = presenter
         presenter.interactor = interacter
+        presenter.router = router
     }
 }

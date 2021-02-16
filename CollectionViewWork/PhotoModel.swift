@@ -7,8 +7,26 @@
 
 import Foundation
 
-struct PhotoModel: Decodable {
+class PhotoModel: NSObject, Decodable, NSCoding {
     let urls: Urls
+    
+    init (urls: Urls) {
+        self.urls = urls
+    }
+    
+    func encode(with coder: NSCoder) {
+        coder.encode(urls.small, forKey: "small")
+        coder.encode(urls.regular, forKey: "regular")
+    }
+    
+    required init?(coder: NSCoder) {
+        urls = Urls(
+            small: coder.decodeObject(forKey: "small") as? String ?? "",
+            regular: coder.decodeObject(forKey: "regular") as? String ?? ""
+        )
+    }
+    
+    
 }
 
 struct Urls: Decodable {

@@ -15,7 +15,7 @@ protocol SaveInteractorInputProtocol: class {
 }
 
 protocol  SaveInteractorOutputProtocol: class {
-    func photosDidRecieve(_ photos: [String])
+    func photosDidRecieve(_ photos: [PhotoModel])
 }
 
 class SaveInteractor: SaveInteractorInputProtocol {

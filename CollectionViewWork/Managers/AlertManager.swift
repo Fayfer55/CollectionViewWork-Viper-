@@ -13,7 +13,7 @@ class AlertManager {
     private init () {}
     
     func showActionAlert(title: String, message: String, yesAction: @escaping () -> Void, complitionForPresenting: @escaping (UIAlertController) -> Void) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle:  .actionSheet)
         
         let okAction = UIAlertAction(title: "Yes", style: .default) { _ in
             yesAction()
@@ -25,7 +25,7 @@ class AlertManager {
         complitionForPresenting(alert)
     }
     
-    func showsimpleAlert(title: String, message: String, complitionForPresenting: @escaping (UIAlertController) -> Void) {
+    func showSimpleAlert(title: String, message: String, complitionForPresenting: @escaping (UIAlertController) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "Got it!", style: .default)

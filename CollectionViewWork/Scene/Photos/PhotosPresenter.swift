@@ -16,7 +16,7 @@ class PhotosPresenter: PhotosViewOutputProtocol {
     }
     private var page = 1
     private var photos = [PhotoModel]()
-    private var selectedPhotos = [String]()
+    private var selectedPhotos = [PhotoModel]()
     private var dictionaryIndeces = [IndexPath:Bool]()
     private var selectedIndeces = [IndexPath]()
     private var searchText: String?
@@ -71,16 +71,18 @@ class PhotosPresenter: PhotosViewOutputProtocol {
                 selectedIndeces.append(key)
             }
         }
-        for index in selectedIndeces.sorted(by: { $0.item > $1.item }) {
-            let photo = photos[index.item].urls.small
+        let sortedIndeces = selectedIndeces.sorted(by: { $0.item > $1.item })
+        for index in  sortedIndeces {
+            let photo = photos[index.item]
             selectedPhotos.append(photo)
             view.deselectItem(at: index)
+            print(photo)
         }
         interactor.savePhotos(photos: selectedPhotos)
         selectedIndeces.removeAll()
         selectedPhotos.removeAll()
         dictionaryIndeces.removeAll()
-        AlertManager.shared.showsimpleAlert(
+        AlertManager.shared.showSimpleAlert(
             title: "Your photos where saved",
             message: "You can find them in gallery in up left corner") { [weak self] (alert) in
             self?.view.showAlert(with: alert)

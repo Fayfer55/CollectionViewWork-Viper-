@@ -11,21 +11,25 @@ class StorageManager {
     static let shared = StorageManager()
     
     private let userDefaults = UserDefaults.standard
-    private let photosKey = "photos"
+    private let photosKey = "newPhotos"
     
     private init() {}
     
-    func load() -> [String] {
-        if let photos = userDefaults.value(forKey: photosKey) as? [String] {
+    func load() -> [PhotoModel] {
+        if let data = userDefaults.value(forKey: photosKey) as? Data {
+            guard let photos = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [PhotoModel] else { return []}
             return photos
         }
         return []
     }
     
-    func save(value: [String]) {
+    func save(value: [PhotoModel]) {
         var photos = load()
         photos.append(contentsOf: value)
-        userDefaults.set(photos, forKey: photosKey)
+        
+        let data = archieveData(with: value)
+        
+        userDefaults.set(data, forKey: photosKey)
     }
     
     func delete(value: Int) {
@@ -33,6 +37,11 @@ class StorageManager {
 
         photos.remove(at: value)
         
-        userDefaults.set(photos, forKey: photosKey)
+        save(value: photos)
+    }
+    
+    private func archieveData(with photos:[PhotoModel]) -> Data? {
+        let archieveData = try? NSKeyedArchiver.archivedData(withRootObject: photos, requiringSecureCoding: false)
+        return archieveData
     }
 }

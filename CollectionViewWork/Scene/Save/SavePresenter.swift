@@ -8,7 +8,7 @@
 import Foundation
 
 class SavePresenter: SaveViewOutputProtocol {
-    var savedPhotos = [String]()
+    var savedPhotos = [PhotoModel]()
     var deleteIndeces = [IndexPath: Bool]()
     var deleteNeed = [IndexPath]()
     var photosCount: Int {
@@ -17,13 +17,14 @@ class SavePresenter: SaveViewOutputProtocol {
     
     unowned var view: SaveViewInputProtocol
     var interactor: SaveInteractorInputProtocol!
+    var router: SaveRouterInputProtocol!
     
     required init(view: SaveViewInputProtocol) {
         self.view = view
     }
     
     func getPhoto(at indexPath: IndexPath) -> String {
-        savedPhotos[indexPath.item]
+        savedPhotos[indexPath.item].urls.small
     }
     
     func fetchPhotos() {
@@ -48,8 +49,8 @@ class SavePresenter: SaveViewOutputProtocol {
     
     func deleteElements() {
         AlertManager.shared.showActionAlert(
-            title: "Are you sure?",
-            message: "You can't recover photos") { [weak self] in
+            title: "Are you sure? You can't recover photos",
+            message: "") { [weak self] in
             for (key,value) in self!.deleteIndeces {
                 if value == true {
                     self?.deleteNeed.append(key)
@@ -67,11 +68,15 @@ class SavePresenter: SaveViewOutputProtocol {
             self?.view.showAlert(with: alert)
         }
     }
+    
+    func showBigPhoto(at indexPath: IndexPath) {
+        router.openBigPhotoViewController(with: savedPhotos, and: indexPath)
+    }
 }
 
 
 extension SavePresenter: SaveInteractorOutputProtocol {
-    func photosDidRecieve(_ photos: [String]) {
+    func photosDidRecieve(_ photos: [PhotoModel]) {
         savedPhotos = photos
     }
 }

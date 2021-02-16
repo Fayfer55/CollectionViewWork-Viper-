@@ -47,6 +47,16 @@ class CollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    override func updateConstraints() {
+        checkmark.translatesAutoresizingMaskIntoConstraints = false
+        checkmark.leadingAnchor.constraint(equalTo: mainImage.leadingAnchor, constant: 70).isActive = true
+        checkmark.trailingAnchor.constraint(equalTo: mainImage.trailingAnchor, constant: -5).isActive = true
+        checkmark.topAnchor.constraint(equalTo: mainImage.topAnchor, constant: 70).isActive = true
+        checkmark.bottomAnchor.constraint(equalTo: mainImage.bottomAnchor, constant: -5).isActive = true
+        
+        super.updateConstraints()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

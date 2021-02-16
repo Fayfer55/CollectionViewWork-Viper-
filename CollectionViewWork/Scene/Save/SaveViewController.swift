@@ -25,6 +25,7 @@ protocol SaveViewOutputProtocol: class {
     func selectElements(at indexPath: IndexPath)
     func deselectItems(at indexPath: IndexPath)
     func deleteElements()
+    func showBigPhoto(at indexPath: IndexPath)
 }
 
 class SaveViewController: UIViewController {
@@ -43,12 +44,12 @@ class SaveViewController: UIViewController {
     }()
     
     private lazy var deleteBarButtonItem: UIBarButtonItem = {
-        let selectBarButtonItem = UIBarButtonItem(
+        let deleteBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .trash,
             target: self,
             action: #selector(deleteButtonPressed)
         )
-        return selectBarButtonItem
+        return deleteBarButtonItem
     }()
     
     private var mode: Mode = .view {
@@ -128,6 +129,7 @@ extension SaveViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             presenter.selectElements(at: indexPath)
         case .view:
             collectionView.deselectItem(at: indexPath, animated: true)
+            presenter.showBigPhoto(at: indexPath)
             break
         }
     }
